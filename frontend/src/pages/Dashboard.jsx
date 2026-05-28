@@ -23,7 +23,7 @@ function Dashboard() {
   const fetchTasks = async () => {
 
     const { data } = await axios.get(
-      "http://localhost:5000/api/tasks",
+      "https://task-manager-backend-pxtd.onrender.com/api/tasks",
       config
     );
 

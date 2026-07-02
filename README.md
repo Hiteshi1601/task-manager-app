@@ -96,7 +96,3 @@ Database hosted on:
 - MongoDB Atlas
 
 ---
-
-## 👩‍💻 Author
-
-Ramya

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 import Navbar from "../components/Navbar";
 import TaskItem from "../components/TaskItem";
@@ -21,13 +21,15 @@ function Dashboard() {
   };
 
   const fetchTasks = async () => {
-
-    const { data } = await axios.get(
-      "https://task-manager-backend-pxtd.onrender.com/api/tasks",
-      config
-    );
-
-    setTasks(data);
+    try {
+      const { data } = await api.get(
+        "/api/tasks",
+        config
+      );
+      setTasks(data);
+    } catch (err) {
+      console.error("Error fetching tasks:", err);
+    }
   };
 
   useEffect(() => {
@@ -35,42 +37,50 @@ function Dashboard() {
   }, []);
 
   const addTask = async () => {
-
     if (!title) return;
 
-    await axios.post(
-      "https://task-manager-backend-pxtd.onrender.com/api/tasks",
-      {
-        title,
-        completed: status === "Completed"
-      },
-      config
-    );
-
-    setTitle("");
-
-    fetchTasks();
+    try {
+      await api.post(
+        "/api/tasks",
+        {
+          title,
+          completed: status === "Completed"
+        },
+        config
+      );
+      setTitle("");
+      fetchTasks();
+    } catch (err) {
+      console.error("Error adding task:", err);
+      alert(err.response?.data?.message || err.message || "Failed to add task");
+    }
   };
 
   const completeTask = async (id) => {
-
-    await axios.put(
-      `https://task-manager-backend-pxtd.onrender.com/api/tasks/${id}`,
-      {},
-      config
-    );
-
-    fetchTasks();
+    try {
+      await api.put(
+        `/api/tasks/${id}`,
+        {},
+        config
+      );
+      fetchTasks();
+    } catch (err) {
+      console.error("Error updating task:", err);
+      alert(err.response?.data?.message || err.message || "Failed to update task");
+    }
   };
 
   const deleteTask = async (id) => {
-
-    await axios.delete(
-      `https://task-manager-backend-pxtd.onrender.com/api/tasks/${id}`,
-      config
-    );
-
-    fetchTasks();
+    try {
+      await api.delete(
+        `/api/tasks/${id}`,
+        config
+      );
+      fetchTasks();
+    } catch (err) {
+      console.error("Error deleting task:", err);
+      alert(err.response?.data?.message || err.message || "Failed to delete task");
+    }
   };
 
   return (

@@ -39,6 +39,7 @@ A full-stack MERN Task Manager application with JWT authentication and CRUD oper
 ## 📸 Screenshots
 
 Login Page
+
 Dashboard
 
 ---
